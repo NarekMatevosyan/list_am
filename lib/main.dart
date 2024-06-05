@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:list_am/features/common/bloc/products_list_bloc.dart';
 import 'features/home/home_screen.dart';
 
 void main() {
@@ -13,9 +12,14 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      home: BlocProvider(
+        create: (context) => ProductsListBloc(),
+        child: HomeScreen(
+          bloc: BlocProvider.of(context),
+        ),
+      ),
     );
   }
 }
