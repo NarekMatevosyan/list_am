@@ -3,7 +3,7 @@ class ProductBoxViewModel {
   final String image;
   final String price;
   final String description;
-  final bool isFavorite;
+  bool isFavorite;
 
   ProductBoxViewModel(
       {required this.id,

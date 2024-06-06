@@ -12,7 +12,7 @@ class ProductsListBloc extends Bloc<ProductsListEvent, ProductsListState> {
               ProductBoxViewModel(
                 id: 0,
                 image: 'assets/images/bycycle.jpg',
-                price: '75.000\$',
+                price: '100\$',
                 description: 'hecaniv',
                 isFavorite: false,
               ),
@@ -26,27 +26,44 @@ class ProductsListBloc extends Bloc<ProductsListEvent, ProductsListState> {
               ProductBoxViewModel(
                 id: 2,
                 image: 'assets/images/home.jpg',
-                price: '75.000\$',
+                price: '110.000\$',
                 description: 'tun',
                 isFavorite: false,
               ),
               ProductBoxViewModel(
                 id: 3,
                 image: 'assets/images/mouse.jpg',
-                price: '75.000\$',
+                price: '10\$',
                 description: 'mknik',
                 isFavorite: false,
               ),
               ProductBoxViewModel(
                 id: 4,
                 image: 'assets/images/phone.jpg',
-                price: '75.000\$',
+                price: '750\$',
                 description: 'heraxos',
                 isFavorite: false,
               ),
             ],
+            favoriteProducts: [],
           ),
         ) {
-    on<ProductsListAddToFavoritesEvent>((event, emit) {});
+    final currentState = state as ProductsListInitial;
+    on<ProductsListAddFavoriteEvent>((event, emit) {
+      currentState.favoriteProducts.add(currentState.products[event.id]);
+      currentState.products[event.id].isFavorite = true;
+
+      emit(currentState);
+    });
+    on<ProductsListRemoveFavoriteEvent>((event, emit) {
+      currentState.favoriteProducts.removeAt(event.id);
+      for (var i = 0; i < currentState.favoriteProducts.length; i++) {
+        if (currentState.favoriteProducts[i].id == event.id) {
+          currentState.favoriteProducts.removeAt(i);
+        }
+      }
+
+      emit(currentState);
+    });
   }
 }

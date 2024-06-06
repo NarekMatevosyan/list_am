@@ -16,9 +16,7 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: BlocProvider(
         create: (context) => ProductsListBloc(),
-        child: HomeScreen(
-          bloc: BlocProvider.of(context),
-        ),
+        child: const HomeScreen(),
       ),
     );
   }
