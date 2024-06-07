@@ -61,6 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: state.products[index].isFavorite
                                   ? IconButton(
                                       onPressed: () {
+                                        setState(() {});
                                         context.read<ProductsListBloc>().add(
                                             ProductsListRemoveFavoriteEvent(
                                                 id: state.products[index].id));
@@ -71,6 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       ))
                                   : IconButton(
                                       onPressed: () {
+                                        setState(() {});
                                         context.read<ProductsListBloc>().add(
                                             ProductsListAddFavoriteEvent(
                                                 id: state.products[index].id));
@@ -110,9 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             );
           } else {
-            return FavoritesScreen(
-              bloc: context.read<ProductsListBloc>(),
-            );
+            return const FavoritesScreen();
           }
         },
       ),

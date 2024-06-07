@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:list_am/features/common/bloc/products_list_bloc.dart';
 
-class FavoritesScreen extends StatelessWidget {
-  const FavoritesScreen({super.key, required this.bloc});
+class FavoritesScreen extends StatefulWidget {
+  const FavoritesScreen({super.key});
 
-  final ProductsListBloc bloc;
+  @override
+  State<FavoritesScreen> createState() => _FavoritesScreenState();
+}
 
+class _FavoritesScreenState extends State<FavoritesScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProductsListBloc, ProductsListState>(
@@ -45,7 +48,13 @@ class FavoritesScreen extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(7.0),
                                 ),
                                 child: IconButton(
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    setState(() {});
+                                    context.read<ProductsListBloc>().add(
+                                        ProductsListRemoveFavoriteEvent(
+                                            id: state
+                                                .favoriteProducts[index].id));
+                                  },
                                   icon: const Icon(
                                     Icons.favorite,
                                     color: Colors.yellow,
@@ -82,7 +91,10 @@ class FavoritesScreen extends StatelessWidget {
                   itemCount: state.favoriteProducts.length,
                 )
               : const Center(
-                  child: Text('Nothing Added'),
+                  child: Text(
+                    'Nothing Added',
+                    style: TextStyle(color: Colors.grey),
+                  ),
                 ),
         );
       },

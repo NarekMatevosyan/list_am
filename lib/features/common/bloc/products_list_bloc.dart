@@ -49,21 +49,28 @@ class ProductsListBloc extends Bloc<ProductsListEvent, ProductsListState> {
           ),
         ) {
     final currentState = state as ProductsListInitial;
-    on<ProductsListAddFavoriteEvent>((event, emit) {
-      currentState.favoriteProducts.add(currentState.products[event.id]);
-      currentState.products[event.id].isFavorite = true;
 
-      emit(currentState);
-    });
-    on<ProductsListRemoveFavoriteEvent>((event, emit) {
-      currentState.favoriteProducts.removeAt(event.id);
-      for (var i = 0; i < currentState.favoriteProducts.length; i++) {
-        if (currentState.favoriteProducts[i].id == event.id) {
-          currentState.favoriteProducts.removeAt(i);
+    on<ProductsListAddFavoriteEvent>((event, emit) {
+      if (currentState.favoriteProducts.isEmpty) {
+        currentState.favoriteProducts.add(currentState.products[event.id]);
+        currentState.products[event.id].isFavorite = true;
+      } else {
+        if (!currentState.products[event.id].isFavorite) {
+          currentState.favoriteProducts.add(currentState.products[event.id]);
+          currentState.products[event.id].isFavorite = true;
         }
       }
 
       emit(currentState);
+    });
+    on<ProductsListRemoveFavoriteEvent>((event, emit) {
+      for (var i = 0; i < currentState.favoriteProducts.length; i++) {
+        if (currentState.favoriteProducts[i].id == event.id) {
+          currentState.favoriteProducts.removeAt(i);
+          currentState.products[event.id].isFavorite = false;
+          emit(currentState);
+        }
+      }
     });
   }
 }
